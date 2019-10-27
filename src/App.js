@@ -10,11 +10,7 @@ import TodoList from "./component/TodoList";
 
 export default class App extends Component {
   state = {
-    items: [
-      { id: "abc10", title: "Wake up" },
-      { id: "abc20", title: "make breakfast" },
-      { id: "abc30", title: "take a shower" }
-    ],
+    items: [],
     id: uuid(),
     idToEdit:'',
     item: "", //pass it down to todoItem
@@ -38,8 +34,7 @@ export default class App extends Component {
       item: "",
       editItem: false,
       id: uuid()
-    },
-    ()=>console.log(this.state));
+    })
   };
   clearList = e => {
     this.setState({
@@ -60,7 +55,8 @@ export default class App extends Component {
      idToEdit: id
    });
   };
-  handleEditBtn = () =>{
+  handleEditBtn = (e) =>{
+  e.preventDefault();
    const newItems = this.state.items;
    newItems.find(item => item.id === this.state.idToEdit).title = this.state.item;
    this.setState({
