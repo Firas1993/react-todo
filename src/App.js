@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import uuid from "uuid";
 
 import React, { Component } from "react";
@@ -15,6 +16,7 @@ export default class App extends Component {
       { id: "abc30", title: "take a shower" }
     ],
     id: uuid(),
+    idToEdit:'',
     item: "", //pass it down to todoItem
     editItem: false
   };
@@ -28,7 +30,7 @@ export default class App extends Component {
     e.preventDefault();
     const newItem = {
       id: this.state.id,
-      item: this.state.item
+      title: this.state.item
     };
     const updatedItems = [...this.state.items, newItem];
     this.setState({
@@ -36,17 +38,42 @@ export default class App extends Component {
       item: "",
       editItem: false,
       id: uuid()
-    });
+    },
+    ()=>console.log(this.state));
   };
   clearList = e => {
-    console.log("clear list from app.js");
+    this.setState({
+      items:[]
+    })
   };
   handleDelete = id => {
-    console.log(`delete item id ${id}`);
+    const updated = this.state.items.filter(item => item.id !== id);
+    this.setState({
+      items: updated
+    });
   };
   handleEdit = id => {
-    console.log(`edit ${id}`);
+   const toEdit = this.state.items.filter(item => item.id === id)[0];
+   this.setState({
+     item: toEdit.title,
+     editItem: true,
+     idToEdit: id
+   });
   };
+  handleEditBtn = () =>{
+   const newItems = this.state.items.map(item => {
+     if(item.id === this.state.idToEdit){
+      return item.title = this.state.item
+     }
+   }); 
+   this.setState({
+     items:newItems,
+     item:"",
+     editItem:false,
+     idToEdit:''
+    
+   })
+  }
   render() {
     return (
       <div className="container">
@@ -59,6 +86,7 @@ export default class App extends Component {
               handleChange={this.handleChange}
               handleSubmit={this.handleSubmit}
               editItem={this.state.editItem}
+              handleEditBtn={this.handleEditBtn}
             />
           </div>
           <div className="col-10 mx-auto col-md-8 mt-5">
@@ -67,6 +95,7 @@ export default class App extends Component {
               clearList={this.clearList}
               handleDelete={this.handleDelete}
               handleEdit={this.handleEdit}
+              handleEditBtn={this.handleEditBtn}
             />
           </div>
         </div>
