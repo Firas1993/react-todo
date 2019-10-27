@@ -61,11 +61,8 @@ export default class App extends Component {
    });
   };
   handleEditBtn = () =>{
-   const newItems = this.state.items.map(item => {
-     if(item.id === this.state.idToEdit){
-      return item.title = this.state.item
-     }
-   }); 
+   const newItems = this.state.items;
+   newItems.find(item => item.id === this.state.idToEdit).title = this.state.item;
    this.setState({
      items:newItems,
      item:"",

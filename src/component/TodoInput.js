@@ -23,6 +23,7 @@ export default class TodoInput extends Component {
 
           <button
             type="submit"
+            disabled={item ? false: true}
             className={
               editItem
                 ? "btn btn-success mt-3 text-uppercase"
